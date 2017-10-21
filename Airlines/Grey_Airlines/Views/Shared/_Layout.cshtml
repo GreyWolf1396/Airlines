@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+<div class="row page-header">
+    <div class="col-md-2"></div>
+    <div class=" col-md-10 modal-title">
+        <h2>Exam project airlines</h2>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 sidemenu">
+            <div class="log-msg">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Administrator"))
+                    {
+                        <p>You logged as an administrator @User.Identity.Name</p>
+                    }
+                    else if( User.IsInRole("Dispatcher"))
+                    {
+                        <p>You logged as a dispatcher @User.Identity.Name</p>
+                    }
+                    else
+                    {
+                        <p>You logged as a system administrator @User.Identity.Name</p>
+                    }
+                }
+                else
+                {
+                    <p>Hello, guest</p>
+                }
+            </div>
+
+            <div class="dropdown">
+                <ul class="nav nav-tabs nav-stacked mainmenu">
+                    <li>@Html.ActionLink("Passenger flights", "IndexFlights", "PassengerFlight")</li>
+                    <li>@Html.ActionLink("Cargo flights", "IndexFlights", "CargoFlight")</li>
+                    <li>@Html.ActionLink("Airlines", "IndexAirlines", "Airline")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Dispatcher"))
+                        {
+                            <li>@Html.ActionLink("Crews", "IndexCrew", "Crew")</li>
+                            <li>@Html.ActionLink("Requests", "IndexRequest","User")</li>
+                        }
+                        if (User.IsInRole("Administrator"))
+                        {
+                            <li>@Html.ActionLink("Crews", "IndexCrew", "Crew")</li>
+                            <li>@Html.ActionLink("Incoming requests", "IndexRequestAdmin", "User")</li>
+                        }
+                        if (User.IsInRole("System administrator"))
+                        {
+                            <li>@Html.ActionLink("Users", "IndexUser", "User")</li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="sidebar-part">
+                @Html.ActionLink("Search for flight", "Index", "Search")
+            </div>
+            @if (User.IsInRole("Dispatcher"))
+            {
+                <div class="sidebar-part">
+                    @Html.ActionLink("Create request", "CreateRequest", "User")
+                </div>
+            }
+            <div class="logout-action">
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    @Html.ActionLink("Sign out", "Logout","User")
+                }
+                else
+                {
+                    @Html.ActionLink("Sign in","Login","User");
+                }
+            </div>
+        </div>
+        <div class="col-md-10">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <p class="text-center">GreyWolf&copy; 2017</p>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

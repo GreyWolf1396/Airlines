@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Grey_Airlines.Models.AirportModel>
+
+@{
+    ViewBag.Title = "IndexAirport";
+}
+
+<h2>Airlines</h2>
+<ul class="nav nav-tabs">
+    <li>@Html.ActionLink("Airlines", "IndexAirlines")</li>
+    <li class="active">@Html.ActionLink("Airports", "IndexAirports")</li>
+</ul>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            @if (User.IsInRole("Administrator"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "EditAirport", new {id = item.Id}) |
+                    @Html.ActionLink("Delete", "DeleteAirport", new {id = item.Id})
+                </td>
+            }
+        </tr>
+    }
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.ActionLink("Create New", "CreateAirport")
+    </p>
+}

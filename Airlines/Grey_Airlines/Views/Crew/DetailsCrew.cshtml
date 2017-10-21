@@ -1,0 +1,71 @@
+﻿@model Grey_Airlines.Models.CrewViewModel
+
+@{
+    ViewBag.Title = "Crew details";
+}
+
+<h2>Crew details</h2>
+@Html.ActionLink("Back to List", "IndexCrew")
+<div>
+    @Html.ValidationSummary(true,"",new{@class="text-danger"})
+    <hr/>
+    <div class="details-part">
+        <h4>Details</h4>
+        <table class="table">
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Crew.Title)</td>
+                <td>@Html.DisplayFor(m => m.Crew.Title)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Crew.Home)</td>
+                <td>@Html.DisplayFor(m => m.Crew.Home)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Crew.CrewCount)</td>
+                <td>@Html.DisplayFor(m => m.Crew.CrewCount)</td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+    <div class="details-part">
+        <h4>Pilots</h4>
+        @Html.ActionLink("Add pilot", "AddPilotToCrew", new {id = Model.Crew.Id})
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var pilot in Model.PilotsInCrew)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(item => pilot.Name)</td>
+                    <td>@Html.DisplayFor(item => pilot.CrewRole)</td>
+                    <td>@Html.ActionLink("Details about pilot","DetailsPilot",new {id = pilot.Id})</td>
+                    <td>@Html.ActionLink("Remove", "DeletePilotFromCrew", new {crewId = Model.Crew.Id, pilotId = pilot.Id})</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br/>
+    <div class="details-part">
+        <h4>Employees</h4>
+        @Html.ActionLink("Add employee", "AddEmployeeToCrew", new {id = Model.Crew.Id})
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th></th>
+            </tr>
+            @foreach (var employee in Model.EmployeesInCrew)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(item => employee.Name)</td>
+                    <td>@Html.DisplayFor(item => employee.CrewRole)</td>
+                    <td>@Html.ActionLink("Remove", "DeleteEmployeeFromCrew", new {crewId = Model.Crew.Id, employeeId = employee.Id})</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

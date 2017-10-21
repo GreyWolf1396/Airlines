@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+<div class="text-center"><h2>Search</h2></div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="text-center"><h4>Passenger flights</h4></div>
+        <div class="search-form">
+            @using (Html.BeginForm("SearchFlightById", "PassengerFlight"))
+            {
+                <p>Search flight by it's Id</p>
+                <table class="table table-search">
+                    <tr>
+                        <td>Id</td>
+                        <td><input name="flightId" type="number" class="form-control" required /></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Search passenger flight" class="btn btn-info"/>
+            }
+        </div>
+        <div class="search-form">
+            @using (Html.BeginForm("SearchFlightByParams", "PassengerFlight"))
+            {
+                <p>Search flight by start and end points</p>
+                <table class="table table-search">
+                    <tr>
+                        <td>From</td>
+                        <td>@Html.DropDownList("startPoint", ViewBag.Airports as SelectList, new { @class = "form-control", required="required"})</td>
+                    </tr>
+                    <tr>
+                        <td>To</td>
+                        <td>@Html.DropDownList("endPoint", ViewBag.Airports as SelectList, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td><input type="date" name="date" class="form-control" required /></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Search passenger flights" class="btn btn-info"/>
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="text-center"><h4>Cargo flights</h4></div>
+        <div class="search-form">
+            @using (Html.BeginForm("SearchFlightById", "CargoFlight"))
+            {
+                <p>Search flight by it's Id</p>
+                <table class="table table-search">
+                    <tr>
+                        <td>Id</td>
+                        <td><input name="flightId" type="number" class="form-control" required /></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Search cargo flight" class="btn btn-info"/>
+            }
+        </div>
+        <div class="search-form">
+            @using (Html.BeginForm("SearchFlightByParams", "CargoFlight"))
+            {
+                <p>Search flight by start and end points</p>
+                <table class="table">
+                    <tr>
+                        <td>From</td>
+                        <td>@Html.DropDownList("startPoint", ViewBag.Airports as SelectList, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>To</td>
+                        <td>@Html.DropDownList("endPoint", ViewBag.Airports as SelectList, new { @class = "form-control", required = "required" })</td>
+                    </tr>
+                    <tr>
+                        <td>Date</td>
+                        <td><input type="date" name="date" class="form-control" required /></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Search cargo flights" class="btn btn-info"/>
+            }
+        </div>
+    </div>
+</div>
+

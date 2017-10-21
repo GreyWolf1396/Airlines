@@ -1,0 +1,72 @@
+﻿@model Grey_Airlines.Models.ViewModels.PilotViewModel
+
+@{
+    ViewBag.Title = "Pilot";
+}
+
+<h2>Details about pilot</h2>
+<p>
+    @Html.ActionLink("Back to List", "IndexPilots")
+</p>
+<div>
+    <div class="details-part">
+        <h3>@Html.DisplayFor(m => m.Pilot.Name)</h3>
+        <hr />
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Pilot.LicenseNumber)</td>
+                <td>@Html.DisplayFor(m => m.Pilot.LicenseNumber)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Pilot.Education)</td>
+                <td>@Html.DisplayFor(m => m.Pilot.Education)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Pilot.HoursOfExperience)</td>
+                <td>@Html.DisplayFor(m => m.Pilot.HoursOfExperience)</td>
+            </tr>
+        </table>
+        <input class="btn btn-info" type="button" onclick="location.href='@Url.Action("EditPilot",new{id=Model.Pilot.Id})'" value="Edit information"/>
+    </div>
+    <div class="details-part">
+        <h4>Experience on passenger planes</h4>
+        <table class="table table-striped">
+            <tr>
+                <td><strong>Plane</strong></td>
+                <td><strong>Experience, hrs</strong></td>
+            </tr>
+            @foreach (var exp in Model.PassengerExperience)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(e => exp.Key)</td>
+                    <td>@Html.DisplayFor(e => exp.Value)</td>
+                </tr>
+            }
+            <tr>
+                <td><strong>Total</strong></td>
+                <td>@Model.PassengerExperience.Sum(t => t.Value)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="details-part">
+        <h4>Experience on cargo planes</h4>
+        <table class="table table-striped">
+            <tr>
+                <td><strong>Plane</strong></td>
+                <td><strong>Experience, hrs</strong></td>
+            </tr>
+            @foreach (var exp in Model.CargoExperience)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(e => exp.Key)</td>
+                    <td>@Html.DisplayFor(e => exp.Value)</td>
+                </tr>
+            }
+            <tr>
+                <td><strong>Total</strong></td>
+                <td>@Model.PassengerExperience.Sum(t => t.Value)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+

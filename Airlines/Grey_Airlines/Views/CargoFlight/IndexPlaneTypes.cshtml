@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Grey_Airlines.Models.CargoPlaneTypeModel>
+
+@{
+    ViewBag.Title = "Plane models: cargo";
+}
+
+<h2>Cargo flights</h2>
+
+<ul class="nav nav-tabs">
+    <li>@Html.ActionLink("Flights", "IndexFlights")</li>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>@Html.ActionLink("Planes", "IndexPlanes")</li>
+    }
+    <li class="active">@Html.ActionLink("PlaneTypes", "IndexPlaneTypes")</li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vendor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarryingCapacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EnginesCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimalCrew)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vendor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarryingCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnginesCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimalCrew)
+            </td>
+            @if (User.IsInRole("Administrator"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "EditPlaneType", new {id = item.Id}) |
+                    @Html.ActionLink("Delete", "DeletePlaneType", new {id = item.Id})
+                </td>
+            }
+        </tr>
+    }
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.ActionLink("Create New", "CreatePlaneType")
+    </p>
+}

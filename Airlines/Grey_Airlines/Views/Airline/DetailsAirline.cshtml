@@ -1,0 +1,119 @@
+﻿@model Grey_Airlines.Models.AirlineViewModel
+
+@{
+    ViewBag.Title = "DetailsAirline";
+}
+
+<h2>Details about airline</h2>
+<p>
+    @Html.ActionLink("Back to List", "IndexAirlines")
+</p>
+<div>
+    <div class="details-part">
+        <h4>Airline Details</h4>
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(model =>model.Airline.Title)</td>
+                <td>@Html.DisplayFor(model =>model.Airline.Title)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Airline.Departure)</td>
+                <td>@Html.DisplayFor(model => model.Airline.Departure)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Airline.Arriving)</td>
+                <td>@Html.DisplayFor(model => model.Airline.Arriving)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Airline.HoursTaken)</td>
+                <td>@Html.DisplayFor(model => model.Airline.HoursTaken)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Airline.BaseTicketValue)</td>
+                <td>@Html.DisplayFor(model => model.Airline.BaseTicketValue)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Airline.Periodicity)</td>
+                <td>@Html.DisplayFor(model => model.Airline.Periodicity)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="details-part">
+        <h4>Route Nodes</h4>
+        <table class="table">
+            <tr>
+                <th>Airport</th>
+                <th>Arriving</th>
+                <th>Departure</th>
+                <th>Number in route</th>
+                <th></th>
+            </tr>
+            @foreach (var node in Model.RouteNodes)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(item => node.Airport)</td>
+                    <td>@Html.DisplayFor(item => node.Arriving)</td>
+                    <td>@Html.DisplayFor(item => node.Departure)</td>
+                    <td>@Html.DisplayFor(item => node.NumberInRoute)</td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <td>@Html.ActionLink("Delete", "DeleteRouteNode", new {id = node.Id})</td>
+                    }
+                </tr>
+            }
+            @if (User.IsInRole("Administrator"))
+            {
+                <tr>
+                    <td colspan="5">
+                        @Html.ActionLink("Add new node", "AddRouteNode", new {id = Model.Airline.Id})
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="details-part">
+        <h4>Cargo flights on this line</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            @foreach (var flight in Model.CargoFlights)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => flight.StartDate)</td>
+                    <td>@Html.DisplayFor(m => flight.Status)</td>
+                    <td>@Html.ActionLink("Details","DetailsFlight","CargoFlight",new {id = flight.Id},null)</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="2"><strong>Total flights</strong></td>
+                <td><strong>@Html.DisplayFor(m => m.CargoFlights.Count)</strong></td>
+            </tr>
+        </table>
+    </div>
+    <div class="details-part">
+        <h4>Passenger flights on this line</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            @foreach (var flight in Model.PassengerFlihts)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => flight.StartDate)</td>
+                    <td>@Html.DisplayFor(m => flight.Status)</td>
+                    <td>@Html.ActionLink("Details", "DetailsFlight", "PassengerFlight", new { id = flight.Id }, null)</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="2"><strong>Total flights</strong></td>
+                <td><strong>@Html.DisplayFor(m => m.PassengerFlihts.Count)</strong></td>
+            </tr>
+        </table>
+    </div>
+</div>
+

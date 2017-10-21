@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Grey_Airlines.Models.PassengerFlightModel>
+
+@{
+    ViewBag.Title = "Passenger flights";
+}
+
+<h2>Passenger flights</h2>
+
+<ul class="nav nav-tabs">
+    <li class="active">@Html.ActionLink("Flights","IndexFlights")</li>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li>@Html.ActionLink("Planes", "IndexPlanes")</li>
+    }
+    <li>@Html.ActionLink("Plane Types", "IndexPlaneTypes")</li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Airline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Crew)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Airline)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Crew)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "DetailsFlight", new { id=item.Id })
+        </td>
+    </tr>
+}
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.ActionLink("Create New", "CreateFlight")
+    </p>
+}

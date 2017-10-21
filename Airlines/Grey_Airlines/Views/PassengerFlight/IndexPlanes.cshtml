@@ -1,0 +1,85 @@
+﻿@using Contracts.Enums
+@model IEnumerable<Grey_Airlines.Models.PassengerPlaneModel>
+
+@{
+    ViewBag.Title = "Passenger planes";
+}
+
+<h2>Passenger flights</h2>
+
+<ul class="nav nav-tabs">
+    <li>@Html.ActionLink("Flights", "IndexFlights")</li>
+    <li class="active">@Html.ActionLink("Planes", "IndexPlanes")</li>
+    <li>@Html.ActionLink("Plane Types", "IndexPlaneTypes")</li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeAirport)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        @if (User.IsInRole("Administrator"))
+        {
+            <th>Actions</th>
+            <th></th>
+        }
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeAirport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @if (User.IsInRole("Administrator"))
+            {
+                <td>
+                    @switch (item.Status)
+                    {
+                        case PlaneStatus.Repair:
+                            @Html.ActionLink("To work", "EditPlane", new {id = item.Id, status = PlaneStatus.Working})
+                            <span>|</span>
+                            @Html.ActionLink("To reserve", "EditPlane", new {id = item.Id, status = PlaneStatus.Reserve})
+                            break;
+                        case PlaneStatus.Reserve:
+                            @Html.ActionLink("To work", "EditPlane", new {id = item.Id, status = PlaneStatus.Working})
+                            <span>|</span>
+                            @Html.ActionLink("To repair", "EditPlane", new {id = item.Id, status = PlaneStatus.Repair})
+                            break;
+                        case PlaneStatus.Working:
+                            @Html.ActionLink("To repair", "EditPlane", new {id = item.Id, status = PlaneStatus.Repair})
+                            <span>|</span>
+                            @Html.ActionLink("To reserve", "EditPlane", new {id = item.Id, status = PlaneStatus.Reserve})
+                            break;
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeletePlane", new {id = item.Id})
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.ActionLink("Create New", "CreatePlane")
+    </p>
+}

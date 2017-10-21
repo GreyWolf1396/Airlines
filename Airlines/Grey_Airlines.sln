@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grey_Airlines.Website", "Grey_Airlines\Grey_Airlines.Website.csproj", "{223319E9-6150-4456-95CA-62F781162791}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1} = {57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}
+		{AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14} = {AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14}
+		{2CD0A9D6-E768-45C4-88F1-6B926C49A374} = {2CD0A9D6-E768-45C4-88F1-6B926C49A374}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grey_Airlines.Tests", "Grey_Airlines.Tests\Grey_Airlines.Tests.csproj", "{005DFBBC-04F1-440C-8730-C8EFDD913C6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grey_Airlines.Contracts", "Contracts\Grey_Airlines.Contracts.csproj", "{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grey_Airlines.DAL", "DAL\Grey_Airlines.DAL.csproj", "{2CD0A9D6-E768-45C4-88F1-6B926C49A374}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grey_Airlines.BLL", "BLL\Grey_Airlines.BLL.csproj", "{AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1} = {57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}
+		{2CD0A9D6-E768-45C4-88F1-6B926C49A374} = {2CD0A9D6-E768-45C4-88F1-6B926C49A374}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{223319E9-6150-4456-95CA-62F781162791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{223319E9-6150-4456-95CA-62F781162791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{223319E9-6150-4456-95CA-62F781162791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{223319E9-6150-4456-95CA-62F781162791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{005DFBBC-04F1-440C-8730-C8EFDD913C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{005DFBBC-04F1-440C-8730-C8EFDD913C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{005DFBBC-04F1-440C-8730-C8EFDD913C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{005DFBBC-04F1-440C-8730-C8EFDD913C6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57C8D20F-586F-4E53-B4CB-CF6D6601F6C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CD0A9D6-E768-45C4-88F1-6B926C49A374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CD0A9D6-E768-45C4-88F1-6B926C49A374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CD0A9D6-E768-45C4-88F1-6B926C49A374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CD0A9D6-E768-45C4-88F1-6B926C49A374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEFD1693-A280-4B7B-83A8-C7B3B7B8AD14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

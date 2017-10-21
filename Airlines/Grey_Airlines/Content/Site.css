@@ -1,0 +1,94 @@
+﻿body {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+.sidemenu, .modal-title {
+    background-color: #3d9aff;
+    color: black;
+}
+
+.sidemenu a {
+    color: black;
+}
+.mainmenu {
+    list-style-type: none;
+}
+.mainmenu a {
+    color: black;
+    font-size: 1.2em;
+}
+
+.page-header {
+    text-align: center;
+    margin: 0;
+}
+
+.log-msg, .logout-action {
+    text-align: center;
+    font-size: 1.3em;
+    margin: 5% auto;
+}
+
+.details-part {
+    margin: 2vh 0;
+    padding: 2% 5%;
+    background-color: #eaf0f9;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+
+}
+
+.search-form {
+    margin: 5% auto;
+    background-color: #c6ddf4;
+    text-align: center;
+    padding: 1% 20%;
+    border-radius: 2%;
+    font-weight: bold;
+}
+.search-form input, .search-form select {
+    margin: 0 auto;
+}
+
+.table tbody > tr > td {
+    vertical-align: middle;
+}
+
+.login-box {
+    margin: 1% auto;
+    padding: 5%;
+}
+
+.page-header {
+    background-color: #3d9aff;
+}
+
+.container {
+    padding: 0 1%;
+    margin: 0;
+}
+
+.sidebar-part {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1.2em;
+    margin: 3% 0;
+}

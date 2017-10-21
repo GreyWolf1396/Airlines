@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Grey_Airlines.Models.PilotModel>
+
+@{
+    ViewBag.Title = "IndexPilots";
+}
+
+<h2>Crews</h2>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li>@Html.ActionLink("Crews", "IndexCrew")</li>
+        <li class="active">@Html.ActionLink("Pilots", "IndexPilots")</li>
+        <li>@Html.ActionLink("Employees", "IndexEmployees")</li>
+    </ul>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LicenseNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoursOfExperience)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Education)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicenseNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursOfExperience)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Education)
+            </td>
+            @if (User.IsInRole("Administrator"))
+            {
+                <td>
+                    @Html.ActionLink("Details", "DetailsPilot", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DeletePilot", new {id = item.Id}) 
+                </td>
+            }
+        </tr>
+    }
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.ActionLink("Create New", "CreatePilot")
+    </p>
+}

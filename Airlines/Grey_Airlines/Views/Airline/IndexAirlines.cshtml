@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Grey_Airlines.Models.AirlineModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Airlines</h2>
+<ul class="nav nav-tabs">
+    <li class="active">@Html.ActionLink("Airlines","IndexAirlines")</li>
+    <li>@Html.ActionLink("Airports", "IndexAirports")</li>
+</ul>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoursTaken)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BaseTicketValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Departure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Arriving)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursTaken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaseTicketValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Arriving)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "DetailsAirline", new { id=item.Id }) 
+                @if (User.IsInRole("Administrator"))
+                {
+                    <span>|</span> @Html.ActionLink("Delete", "DeleteAirline", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
+</table>
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        @Html.ActionLink("Create New", "CreateAirline")
+    </p>
+}

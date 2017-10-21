@@ -1,0 +1,197 @@
+﻿@using Contracts.Enums
+@model Grey_Airlines.Models.PassengerFlightViewModel
+
+@{
+    ViewBag.Title = "Flight details";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<h2>Details</h2>
+@Html.ActionLink("Back to list","IndexFlights")
+@if (User.Identity.IsAuthenticated) { 
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+}
+<div class="form-horizontal">
+    
+    <div class="details-part">
+        <h4> Flight details</h4>
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Airline.Title)</td>
+                <td>@Html.DisplayFor(m => m.Airline.Title)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Flight.StartDate)</td>
+                <td>@Html.DisplayFor(m => m.Flight.StartDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Flight.EndDate)</td>
+                <td>@Html.DisplayFor(m => m.Flight.EndDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Flight.EconomyClassPlacesLeft)</td>
+                <td>@Html.DisplayFor(m => m.Flight.EconomyClassPlacesLeft)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Flight.BusinessClassPlacesLeft)</td>
+                <td>@Html.DisplayFor(m => m.Flight.BusinessClassPlacesLeft)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Flight.FirstClassPlacesLeft)</td>
+                <td>@Html.DisplayFor(m => m.Flight.FirstClassPlacesLeft)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.Flight.Status)</td>
+                <td>@Html.DisplayFor(m => m.Flight.Status)</td>
+            </tr>
+        </table>
+        @if (Model.Flight.Status < FlightStatus.Finished && User.Identity.IsAuthenticated &&!Model.IsCrewError&&!Model.IsPlaneError)
+        {
+            <div class="row">
+                <div class="col-md-9"></div>
+                <div class="col-md-3">
+                    <input type="button" class="btn btn-success" value='Move to "@((FlightStatus) (Model.Flight.Status + 1))" status' onclick="location.href = '@Url.Action("PushFlightStatus", new {id = Model.Flight.Id})'"/>
+                </div>
+            </div>
+        }
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="details-part">
+            <div id="crew-details">
+                <h4>Crew members</h4>
+                <p>@Html.ActionLink(@Model.Crew.Title, "DetailsCrew", "Crew", new {id = Model.Crew.Id}, null)</p>
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                    @foreach (var pilot in Model.Crew.Pilots)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(item => pilot.Name)</td>
+                            <td>Pilot</td>
+                        </tr>
+                    }
+                    @foreach (var employee in Model.Crew.Employees)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(item => employee.Name)</td>
+                            <td>@Html.DisplayFor(item => employee.EducationCategory)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            @if (User.IsInRole("Dispatcher") || User.IsInRole("Administrator"))
+            {
+                using (Ajax.BeginForm("PartialCrew", "PassengerFlight", new AjaxOptions{UpdateTargetId = "crew-details"}))
+                {
+                    @Html.Hidden("flightId", Model.Flight.Id)
+                    <p>Select another crew:</p>
+                    <div class="row">
+                        <div class="col-md-10">
+                            @Html.DropDownList("crewId", ViewBag.Crews as SelectList, new {@class = "form-control"})
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" class="btn btn-info" value="Change crew"/>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+       <div class="details-part">
+           <h4>Plane</h4>
+           <table class="table table-striped">
+               <tr>
+                   <td>@Html.DisplayNameFor(m => m.Plane.Type)</td>
+                   <td>@Html.DisplayFor(m => m.Plane.Type.Title)/@Html.DisplayFor(m=>m.Plane.Id)</td>
+               </tr>
+               <tr>
+                   <td>@Html.DisplayNameFor(m => m.Plane.Type.EconomyClassPlaces)</td>
+                   <td>@Html.DisplayFor(m => m.Plane.Type.EconomyClassPlaces)</td>
+               </tr>
+               <tr>
+                   <td>@Html.DisplayNameFor(m => m.Plane.Type.BusinesClassPlaces)</td>
+                   <td>@Html.DisplayFor(m => m.Plane.Type.BusinesClassPlaces)</td>
+               </tr>
+               <tr>
+                   <td>@Html.DisplayNameFor(m => m.Plane.Type.FirstClassPlaces)</td>
+                   <td>@Html.DisplayFor(m => m.Plane.Type.FirstClassPlaces)</td>
+               </tr>
+               <tr>
+                   <td>@Html.DisplayNameFor(m => m.Plane.Status)</td>
+                   <td>@Html.DisplayFor(m => m.Plane.Status)</td>
+               </tr>
+           </table>
+           @if (User.IsInRole("Dispatcher") || User.IsInRole("Administrator"))
+           {
+               using (Html.BeginForm("SetPlane", "PassengerFlight", FormMethod.Post))
+               {
+                   @Html.Hidden("flightId", Model.Flight.Id)
+                   <p>Select another plane: </p>
+                   <div class="row">
+                       <div class="col-md-10">
+                           @Html.DropDownList("newPlane", ViewBag.Planes as SelectList, new {@class = "form-control"})
+                       </div>
+                       <div class="col-md-2">
+                           <input type="submit" class="btn btn-info" value="Change Plane"/>
+                       </div>
+                   </div>
+               }
+           }
+       </div>
+    }
+    <div class="details-part">
+        <h4>Route Nodes</h4>
+        <table class="table">
+            <tr>
+                <th>Airport</th>
+                <th>Arriving</th>
+                <th>Departure</th>
+                <th>Number in route</th>
+            </tr>
+            @foreach (var node in Model.Airline.RouteNodes)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => node.Airport)</td>
+                    <td>@Html.DisplayFor(m => node.Arriving)</td>
+                    <td>@Html.DisplayFor(m => node.Departure)</td>
+                    <td>@Html.DisplayFor(m => node.NumberInRoute)</td>
+                </tr>
+            }
+        </table>
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="details-part">
+        <h4>Tickets</h4>
+        @if (User.Identity.IsAuthenticated && Model.Flight.Status == FlightStatus.Registration)
+        {
+            @Html.ActionLink("Add ticket", "CreateTicket", new {id = Model.Flight.Id})
+        }
+        <table class="table">
+            <tr>
+                <th>Cargo title</th>
+                <th>Weight</th>
+                <th>Departure airport</th>
+                <th>Destination airport</th>
+                <th></th>
+            </tr>
+            @foreach (var ticket in Model.Tickets)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => ticket.PassengerName)</td>
+                    <td>@Html.DisplayFor(m => ticket.Class)</td>
+                    <td>@Html.DisplayFor(m => Model.Airline.RouteNodes.First(a => a.NumberInRoute == ticket.StartPoint).Airport))</td>
+                    <td>@Html.DisplayFor(m => Model.Airline.RouteNodes.First(a => a.NumberInRoute == ticket.EndPoint).Airport)</td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <td>@Html.ActionLink("Delete", "DeleteTicket", new {id = ticket.Id})</td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+    }
+</div>
