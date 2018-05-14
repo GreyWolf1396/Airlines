@@ -3,9 +3,9 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL;
-using BLL.Services;
+using BLL.Services.Crews;
 using Contracts.DomainEntities.Crews;
-using Grey_Airlines.Models;
+using Grey_Airlines.Models.AirlineModels;
 using Grey_Airlines.Models.CrewModels;
 using Grey_Airlines.Models.ViewModels;
 
@@ -26,12 +26,6 @@ namespace Grey_Airlines.Controllers
         // Crew actions
         public ActionResult IndexCrew()
         {
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<Crew, CrewModel>()
-                    .ForMember("Home", opt => opt.MapFrom(c => c.HomeAirport.Name))
-                    .ForMember("HomeId", opt => opt.MapFrom(c => c.HomeAirport.Id))
-                    .ForMember("Pilots", opt => opt.Ignore())
-                    .ForMember("Employees", opt => opt.Ignore()));
             var model = new List<CrewModel>();
             foreach (var crew in _service.Crews.GetAll())
             {
@@ -42,12 +36,6 @@ namespace Grey_Airlines.Controllers
 
         public ActionResult DetailsCrew(int id)
         {
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<Crew, CrewModel>()
-                    .ForMember("Home", opt => opt.MapFrom(c => c.HomeAirport.Name))
-                    .ForMember("HomeId", opt => opt.MapFrom(c => c.HomeAirport.Id))
-                    .ForMember("Pilots", opt => opt.Ignore())
-                    .ForMember("Employees", opt => opt.Ignore()));
             var entity = _service.Crews.GetById(id);
             var model = new CrewViewModel
             {
@@ -57,14 +45,12 @@ namespace Grey_Airlines.Controllers
             };
             var crewPilots = _service.CrewPilots.GetAll().Where(p => p.Crew == entity);
             var crewEmployees = _service.CrewEmployees.GetAll().Where(p => p.Crew == entity).ToList();
-            Mapper.Initialize(cfg => cfg.CreateMap<Pilot, PilotModel>());
             foreach (var crewPilot in crewPilots)
             {
                 var pilotModel = Mapper.Map<Pilot, PilotModel>(crewPilot.Pilot);
                 pilotModel.CrewRole = crewPilot.Role.Title;
                 model.PilotsInCrew.Add(pilotModel);
             }
-            Mapper.Initialize(cfg => cfg.CreateMap<Employee, EmployeeModel>());
             foreach (var crewEmployee in crewEmployees)
             {
                 var employeeModel = Mapper.Map<Employee, EmployeeModel>(crewEmployee.Employee);
@@ -104,10 +90,6 @@ namespace Grey_Airlines.Controllers
                 ViewBag.Airports = new SelectList(airports, "Id", "Name");
                 return View(crew);
             }
-            Mapper.Initialize(cfg=>cfg.CreateMap<CrewModel,Crew>()
-                .ForMember(c => c.HomeAirport,opt=>opt.Ignore())
-                .ForMember(c => c.Pilots, opt => opt.Ignore())
-                .ForMember(c => c.Employees, opt => opt.Ignore()));
             var entity = Mapper.Map<CrewModel, Crew>(crew);
             entity.HomeAirport = _bllUnit.AirlineService.Airports.GetById(crew.HomeId);
             entity.CrewCount = 0;
@@ -126,7 +108,6 @@ namespace Grey_Airlines.Controllers
         /*******Pilots actions*****/
         public ActionResult IndexPilots()
         {
-            Mapper.Initialize(cfg=>cfg.CreateMap<Pilot,PilotModel>().ForMember(p=>p.CrewRole,opt=>opt.Ignore()));
             var model = new List<PilotModel>();
             foreach (var pilot in _service.Pilots.GetAll())
             {
@@ -165,8 +146,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult EditPilot(int id)
         {
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<Pilot, PilotModel>().ForMember(p => p.CrewRole, opt => opt.Ignore()));
             var model = Mapper.Map<Pilot, PilotModel>(_service.Pilots.GetById(id));
             return View(model);
         }
@@ -196,8 +175,6 @@ namespace Grey_Airlines.Controllers
         public ActionResult DetailsPilot(int id)
         {
             var entity = _service.Pilots.GetById(id);
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<Pilot, PilotModel>().ForMember(p => p.CrewRole, opt => opt.Ignore()));
             var model = new PilotViewModel()
             {
                 Pilot = Mapper.Map<Pilot, PilotModel>(entity),
@@ -217,7 +194,6 @@ namespace Grey_Airlines.Controllers
         /*******Employees actions*******/
         public ActionResult IndexEmployees()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Employee, EmployeeModel>().ForMember(p => p.CrewRole, opt => opt.Ignore()));
             var model = new List<EmployeeModel>();
             foreach (var employee in _service.Employees.GetAll())
             {
@@ -254,8 +230,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult EditEmployee(int id)
         {
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<Employee, EmployeeModel>().ForMember(p => p.CrewRole, opt => opt.Ignore()));
             var model = Mapper.Map<Employee, EmployeeModel>(_service.Employees.GetById(id));
             return View(model);
         }

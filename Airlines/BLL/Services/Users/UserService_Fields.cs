@@ -1,7 +1,6 @@
-﻿using BLL.Services.ServiceBase;
-using DAL;
+﻿using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Users
 {
     /// <summary>
     /// Service for work with entities: Users, Roles, Requests

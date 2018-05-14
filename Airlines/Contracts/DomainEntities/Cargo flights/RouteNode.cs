@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
+using Contracts.DomainEntities.Airlines;
 
-namespace Contracts.DomainEntities.Airlines
+namespace Contracts.DomainEntities.Cargo_flights
 {
     public class RouteNode
     {

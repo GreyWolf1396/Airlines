@@ -1,7 +1,6 @@
-﻿using BLL.Services.ServiceBase;
-using DAL;
+﻿using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Crews
 {
     /// <summary>
     /// Service for work with entities: Crew, Pilot, Employee and relations between them

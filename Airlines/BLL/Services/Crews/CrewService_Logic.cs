@@ -1,15 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Xml;
-using System.Xml.Schema;
-using BLL.Services.ServiceBase;
+﻿using System.Linq;
 using Contracts.DomainEntities.Cargo_flights;
 using Contracts.DomainEntities.Crews;
 using Contracts.DomainEntities.Passenger_flights;
-using Contracts.Enums;
-using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Crews
 {
     public partial class CrewService
     {

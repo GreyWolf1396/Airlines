@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="DomainEntities\Airlines\Airline.cs" />
     <Compile Include="DomainEntities\Airlines\Airport.cs" />
-    <Compile Include="DomainEntities\Airlines\RouteNode.cs" />
+    <Compile Include="DomainEntities\Cargo flights\RouteNode.cs" />
     <Compile Include="DomainEntities\Cargo flights\CargoFlight.cs" />
     <Compile Include="DomainEntities\Cargo flights\CargoPlane.cs" />
     <Compile Include="DomainEntities\Cargo flights\CargoPlaneType.cs" />

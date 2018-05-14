@@ -2,7 +2,7 @@
 using Contracts.DomainEntities.Users;
 using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Users
 {
     public partial class UserService
     {

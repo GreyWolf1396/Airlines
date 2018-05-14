@@ -1,12 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using BLL.Infrastructure.AuthProvider;
-using BLL.Services.ServiceBase;
 using Contracts.DomainEntities.Users;
-using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Users
 {
     public partial class UserService 
     {

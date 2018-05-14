@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
-using BLL.Services.ServiceBase;
 using Contracts.DomainEntities.Cargo_flights;
 using Contracts.DomainEntities.Crews;
 using Contracts.Enums;
-using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.CargoFlights
 {
     public partial class CargoFlightService
     {

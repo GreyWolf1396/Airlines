@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Contracts.DomainEntities.Cargo_flights;
 using Contracts.Enums;
 
 namespace Contracts.DomainEntities.Airlines

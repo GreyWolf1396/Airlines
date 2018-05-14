@@ -8,12 +8,13 @@ using Contracts.DomainEntities.Passenger_flights;
 using Contracts.DomainEntities.Users;
 using Contracts.Enums;
 
-namespace DAL.Database
+namespace DAL.Db
 {
     class AirlineDbInitializer:DropCreateDatabaseIfModelChanges<AirlineDbContext>
     {
         protected override void Seed(AirlineDbContext db)
-        {
+        { 
+
             db.Roles.Add(new Role()
             {
                 Id = 1,
@@ -23,7 +24,7 @@ namespace DAL.Database
             db.Roles.Add(new Role()
             {
                 Id = 2,
-                Title = "Manager",
+                Title = "Dispatcher",
                 AccessLevel = 1
             });
             db.Roles.Add(new Role()

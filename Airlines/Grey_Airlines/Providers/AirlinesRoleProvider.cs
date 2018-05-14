@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Security;
 using BLL;
-using BLL.Services;
+using BLL.Services.Users;
 using Contracts.DomainEntities.Users;
 
 namespace Grey_Airlines.Providers

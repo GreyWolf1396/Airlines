@@ -1,8 +1,9 @@
 ﻿using BLL.Services.ServiceBase;
 using Contracts.DomainEntities.Airlines;
+using Contracts.DomainEntities.Cargo_flights;
 using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Airlines
 {
     partial class AirlineService
     {

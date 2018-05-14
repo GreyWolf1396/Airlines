@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using BLL.Services.ServiceBase;
 using Contracts.DomainEntities.Airlines;
-using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Airlines
 {
     public partial class AirlineService
     {

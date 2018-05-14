@@ -2,7 +2,7 @@
 using Contracts.DomainEntities.Crews;
 using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Crews
 {
     public partial class CrewService
     {

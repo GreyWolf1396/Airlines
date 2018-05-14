@@ -4,12 +4,15 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL;
-using BLL.Services;
+using BLL.Services.PassengerFlights;
 using Contracts.DomainEntities.Airlines;
 using Contracts.DomainEntities.Crews;
 using Contracts.DomainEntities.Passenger_flights;
 using Contracts.Enums;
 using Grey_Airlines.Models;
+using Grey_Airlines.Models.AirlineModels;
+using Grey_Airlines.Models.CrewModels;
+using Grey_Airlines.Models.ViewModels;
 
 namespace Grey_Airlines.Controllers
 {
@@ -28,12 +31,8 @@ namespace Grey_Airlines.Controllers
         [AllowAnonymous]
         public ActionResult IndexFlights()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerFlight, PassengerFlightModel>()
-               .ForMember(m => m.Airline, opt => opt.MapFrom(o => o.Airline.Title))
-               .ForMember(m => m.Crew, opt => opt.MapFrom(o => o.Crew.Title))
-               .ForMember(m => m.Plane, opt => opt.MapFrom(o => o.Plane.Type.Title + "/" + o.Plane.Id)));
             var model = new List<PassengerFlightModel>();
-            foreach (var flight in _service.Flights.GetAll())
+            foreach (var flight in _service.Flights.GetAll().ToList())
             {
                 if (flight.Status != FlightStatus.Finished)
                     model.Add(Mapper.Map<PassengerFlight, PassengerFlightModel>(flight));
@@ -86,48 +85,23 @@ namespace Grey_Airlines.Controllers
             {
                 var entity = _service.Flights.GetById(id);
                 var model = new PassengerFlightViewModel();
-                Mapper.Initialize(cfg => cfg.CreateMap<PassengerFlight, PassengerFlightModel>()
-                    .ForMember(m => m.Airline, opt => opt.Ignore())
-                    .ForMember(m => m.Crew, opt => opt.Ignore())
-                    .ForMember(m => m.Plane, opt => opt.Ignore()));
                 model.Flight = Mapper.Map<PassengerFlight, PassengerFlightModel>(entity);
-                Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlane, PassengerPlaneModel>()
-                    .ForMember(m => m.Type, opt => opt.Ignore())
-                    .ForMember(m => m.HomeAirport, opt => opt.MapFrom(o => o.HomeAirport.Name)));
                 model.Plane = Mapper.Map<PassengerPlane, PassengerPlaneModel>(entity.Plane);
-                Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlaneType, PassengerPlaneTypeModel>());
                 model.Plane.Type = Mapper.Map<PassengerPlaneType, PassengerPlaneTypeModel>(entity.Plane.Type);
-                Mapper.Initialize(
-                    cfg =>
-                        cfg.CreateMap<Crew, CrewModel>()
-                            .ForMember(t => t.Pilots, opt => opt.Ignore())
-                            .ForMember(t => t.Employees, opt => opt.Ignore()));
                 model.Crew = Mapper.Map<Crew, CrewModel>(entity.Crew);
                 model.Crew.Pilots = new List<PilotModel>();
-                Mapper.Initialize(cfg => cfg.CreateMap<Pilot, PilotModel>());
                 foreach (var pilot in entity.Crew.Pilots)
                 {
                     model.Crew.Pilots.Add(Mapper.Map<Pilot, PilotModel>(pilot.Pilot));
                 }
                 model.Crew.Employees = new List<EmployeeModel>();
-                Mapper.Initialize(cfg => cfg.CreateMap<Employee, EmployeeModel>());
                 foreach (var employee in entity.Crew.Employees)
                 {
                     model.Crew.Employees.Add(Mapper.Map<Employee, EmployeeModel>(employee.Employee));
                 }
-                Mapper.Initialize(cfg => cfg.CreateMap<Airline, AirlineModel>()
-                    .ForMember("RouteNodes",
-                        opt => opt.MapFrom(a => a.Nodes.Select(n => new RouteNodeModel()
-                        {
-                            Airline = n.Airline.Title,
-                            Airport = n.Airport.Name,
-                            NumberInRoute = n.NumberInRoute,
-                            Departure = n.Departure,
-                            Arriving = n.Arriving
-                        }).ToList())));
                 model.Airline = Mapper.Map<Airline, AirlineModel>(entity.Airline);
-                Mapper.Initialize(cfg => cfg.CreateMap<PassengerTicket, PassengerTicketModel>()
-                    .ForMember(m => m.FlightId, o => o.MapFrom(t => t.Flight.Id)));
+
+
                 model.Tickets = new List<PassengerTicketModel>();
                 foreach (var ticket in entity.Tickets)
                 {
@@ -170,17 +144,11 @@ namespace Grey_Airlines.Controllers
         /*********Planes*********/
         public ActionResult IndexPlanes()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlane, PassengerPlaneModel>()
-               .ForMember(m => m.Type, opt => opt.Ignore())
-               .ForMember(m => m.HomeAirport, opt => opt.MapFrom(o => o.HomeAirport.Name))
-               .ForMember(m => m.AirportId,opt => opt.MapFrom(o => o.HomeAirport.Id))
-               .ForMember(m => m.TypeId, opt => opt.MapFrom(o=>o.Type.Id)));
             var model = new List<PassengerPlaneModel>();
             foreach (var plane in _service.Planes.GetAll())
             {
                 model.Add(Mapper.Map<PassengerPlane, PassengerPlaneModel>(plane));
             }
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlaneType, PassengerPlaneTypeModel>());
             foreach (var planeModel in model)
             {
                 planeModel.Type =
@@ -198,7 +166,7 @@ namespace Grey_Airlines.Controllers
             {
                 Id = a.Id,
                 Title = a.Title
-            }).ToList(),"Id","Title");
+            }).ToList(), "Id", "Title");
             ViewBag.Airports = new SelectList(_bllUnit.AirlineService.Airports.GetAll().Select(a => new AirportModel()
             {
                 Id = a.Id,
@@ -251,7 +219,6 @@ namespace Grey_Airlines.Controllers
         [AllowAnonymous]
         public ActionResult IndexPlaneTypes()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlaneType, PassengerPlaneTypeModel>());
             var model = new List<PassengerPlaneTypeModel>();
             foreach (var planeType in _service.PlaneTypes.GetAll())
             {
@@ -263,10 +230,10 @@ namespace Grey_Airlines.Controllers
         [AllowAnonymous]
         public ActionResult DetailsPlaneType(int id)
         {
-            try { 
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlaneType, PassengerPlaneTypeModel>());
-            var model = Mapper.Map<PassengerPlaneType, PassengerPlaneTypeModel>(_service.PlaneTypes.GetById(id));
-            return View(model);
+            try
+            {
+                var model = Mapper.Map<PassengerPlaneType, PassengerPlaneTypeModel>(_service.PlaneTypes.GetById(id));
+                return View(model);
             }
             catch (Exception)
             {
@@ -289,8 +256,6 @@ namespace Grey_Airlines.Controllers
             {
                 return View(planeType);
             }
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<PassengerPlaneTypeModel, PassengerPlaneType>().ForMember(m => m.Id, opt => opt.Ignore()));
             var entity = Mapper.Map<PassengerPlaneTypeModel, PassengerPlaneType>(planeType);
             _service.PlaneTypes.Insert(entity);
             return RedirectToAction("IndexPlaneTypes");
@@ -300,10 +265,10 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult EditPlaneType(int id)
         {
-            try { 
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerPlaneType, PassengerPlaneTypeModel>());
-            var model = Mapper.Map<PassengerPlaneType, PassengerPlaneTypeModel>(_service.PlaneTypes.GetById(id));
-            return View(model);
+            try
+            {
+                var model = Mapper.Map<PassengerPlaneType, PassengerPlaneTypeModel>(_service.PlaneTypes.GetById(id));
+                return View(model);
             }
             catch (Exception)
             {
@@ -315,8 +280,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult EditPlaneType(PassengerPlaneTypeModel planeType)
         {
-            Mapper.Initialize(
-               cfg => cfg.CreateMap<PassengerPlaneTypeModel, PassengerPlaneType>().ForMember(m => m.Id, opt => opt.Ignore()));
             var entity = Mapper.Map<PassengerPlaneTypeModel, PassengerPlaneType>(planeType);
             entity.Id = planeType.Id;
             _service.PlaneTypes.Update(entity);
@@ -337,25 +300,18 @@ namespace Grey_Airlines.Controllers
             _service.SetCrew(flight, entity);
             _service.Flights.Update(flight);
             _bllUnit.Save();
-            Mapper.Initialize(
-                     cfg =>
-                         cfg.CreateMap<Crew, CrewModel>()
-                             .ForMember(t => t.Pilots, opt => opt.Ignore())
-                             .ForMember(t => t.Employees, opt => opt.Ignore()));
             var model = Mapper.Map<Crew, CrewModel>(entity);
             model.Pilots = new List<PilotModel>();
-            Mapper.Initialize(cfg => cfg.CreateMap<Pilot, PilotModel>());
             foreach (var pilot in entity.Pilots)
             {
                 model.Pilots.Add(Mapper.Map<Pilot, PilotModel>(pilot.Pilot));
             }
             model.Employees = new List<EmployeeModel>();
-            Mapper.Initialize(cfg => cfg.CreateMap<Employee, EmployeeModel>());
             foreach (var employee in entity.Employees)
             {
                 model.Employees.Add(Mapper.Map<Employee, EmployeeModel>(employee.Employee));
             }
-            return PartialView("PartialViews/CrewDetails",model);
+            return PartialView("PartialViews/CrewDetails", model);
         }
 
 
@@ -436,7 +392,7 @@ namespace Grey_Airlines.Controllers
         public ActionResult PushFlightStatus(int id)
         {
             _service.PushFlightStatus(_service.Flights.GetById(id));
-            return RedirectToAction("DetailsFlight", new {id });
+            return RedirectToAction("DetailsFlight", new { id });
         }
 
         [HttpPost]
@@ -495,10 +451,6 @@ namespace Grey_Airlines.Controllers
                         $"{start.Name} ({start.City}) -> {end.Name} ({end.City}) on {date.ToShortDateString()}"
                     });
             }
-            Mapper.Initialize(cfg => cfg.CreateMap<PassengerFlight, PassengerFlightModel>()
-               .ForMember(m => m.Airline, opt => opt.MapFrom(o => o.Airline.Title))
-               .ForMember(m => m.Crew, opt => opt.MapFrom(o => o.Crew.Title))
-               .ForMember(m => m.Plane, opt => opt.MapFrom(o => o.Plane.Type.Title + "/" + o.Plane.Id)));
             var model = new List<PassengerFlightModel>();
             foreach (var flight in flights)
             {

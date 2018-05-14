@@ -4,10 +4,14 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL;
-using BLL.Services;
+using BLL.Services.Airlines;
 using Contracts.DomainEntities.Airlines;
+using Contracts.DomainEntities.Cargo_flights;
 using Contracts.Enums;
 using Grey_Airlines.Models;
+using Grey_Airlines.Models.AirlineModels;
+using Grey_Airlines.Models.CargoFlightModels;
+using Grey_Airlines.Models.ViewModels;
 
 namespace Grey_Airlines.Controllers
 {
@@ -25,7 +29,6 @@ namespace Grey_Airlines.Controllers
         
         public ActionResult IndexAirlines()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Airline, AirlineModel>());
             var model = new List<AirlineModel>();
             foreach (var airline in _service.Airlines.GetAll())
             {
@@ -39,18 +42,6 @@ namespace Grey_Airlines.Controllers
         {
             try
             {
-                Mapper.Initialize(cfg => cfg.CreateMap<Airline, AirlineModel>()
-                    .ForMember("RouteNodes",
-                        opt => opt.MapFrom(a => a.Nodes.Select(n => new RouteNodeModel()
-                        {
-                            Id = n.Id,
-                            Airline = n.Airline.Title,
-                            Airport = n.Airport.Name,
-                            NumberInRoute = n.NumberInRoute,
-                            Departure = n.Departure,
-                            Arriving = n.Arriving
-                        }).OrderBy(r=>r.NumberInRoute).ToList())));
-
                 var model = new AirlineViewModel()
                 {
                     Airline = Mapper.Map<Airline, AirlineModel>(_service.Airlines.GetById(id))
@@ -88,16 +79,6 @@ namespace Grey_Airlines.Controllers
         {
             try
             {
-                Mapper.Initialize(cfg => cfg.CreateMap<Airline, AirlineModel>().ForMember("RouteNodes",
-                    opt => opt.MapFrom(a => a.Nodes.Select(n => new RouteNodeModel()
-                    {
-                        Airline = n.Airline.Title,
-                        Airport = n.Airport.Name,
-                        NumberInRoute = n.NumberInRoute,
-                        Departure = n.Departure,
-                        Arriving = n.Arriving
-                    }).ToList())));
-
                 var model = new AirlineViewModel()
                 {
                     Airline = Mapper.Map<Airline, AirlineModel>(_service.Airlines.GetById(id))
@@ -149,8 +130,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult CreateAirline(AirlineModel airline)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<AirlineModel, Airline>()
-                .ForMember(a=>a.Nodes,opt=>opt.Ignore()));
             var entity = Mapper.Map<AirlineModel, Airline>(airline);
             _service.Airlines.Insert(entity);
             return RedirectToAction("IndexAirlines");
@@ -160,7 +139,6 @@ namespace Grey_Airlines.Controllers
         /*Airports*/
         public ActionResult IndexAirports()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Airport, AirportModel>());
             var model = new List<AirportModel>();
             foreach (var airport in _service.Airports.GetAll())
             {
@@ -173,7 +151,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult EditAirport(int id)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Airport, AirportModel>());
             var model = Mapper.Map<Airport, AirportModel>(_service.Airports.GetById(id));
             return View(model);
         }
@@ -205,12 +182,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult CreateAirport( AirportModel airport)
         {
-
-            Mapper.Initialize(cfg => cfg.CreateMap<AirportModel, Airport>()
-                .ForMember(a => a.CargoPlanes, opt => opt.Ignore())
-                .ForMember(a => a.PassengerPlanes, opt => opt.Ignore())
-                .ForMember(a => a.Crews, opt => opt.Ignore())
-                .ForMember(a => a.Routes, opt => opt.Ignore()));
             var entity = Mapper.Map<AirportModel, Airport>(airport);
             _service.Airports.Insert(entity);
             return RedirectToAction("IndexAirports");

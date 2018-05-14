@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Contracts.DomainEntities.Passenger_flights;
-using DAL;
-using BLL.Services.ServiceBase;
+﻿using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.PassengerFlights
 {
     /// <summary>
     /// Service for work with entities: PassengerPlaneModel, PassengerPlane, PassengerFlight, PassengerTicket

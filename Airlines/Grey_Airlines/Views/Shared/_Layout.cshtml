@@ -9,15 +9,14 @@
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
-<div class="row page-header">
-    <div class="col-md-2"></div>
-    <div class=" col-md-10 modal-title">
-        <h2>Exam project airlines</h2>
+    <div class="row page-header">
+        <div class="col-md-2"></div>
+        <div class=" col-md-10 modal-title">
+            <h2>Exam project airlines</h2>
+        </div>
     </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-2 sidemenu">
+    <div class="container">
+        <div class="sidemenu">
             <div class="log-msg">
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -25,7 +24,7 @@
                     {
                         <p>You logged as an administrator @User.Identity.Name</p>
                     }
-                    else if( User.IsInRole("Dispatcher"))
+                    else if (User.IsInRole("Dispatcher"))
                     {
                         <p>You logged as a dispatcher @User.Identity.Name</p>
                     }
@@ -41,28 +40,26 @@
             </div>
 
             <div class="dropdown">
-                <ul class="nav nav-tabs nav-stacked mainmenu">
-                    <li>@Html.ActionLink("Passenger flights", "IndexFlights", "PassengerFlight")</li>
-                    <li>@Html.ActionLink("Cargo flights", "IndexFlights", "CargoFlight")</li>
-                    <li>@Html.ActionLink("Airlines", "IndexAirlines", "Airline")</li>
+                    <div class="sidebar-part">@Html.ActionLink("Passenger flights", "IndexFlights", "PassengerFlight")</div>
+                    <div class="sidebar-part">@Html.ActionLink("Cargo flights", "IndexFlights", "CargoFlight")</div>
+                    <div class="sidebar-part">@Html.ActionLink("Airlines", "IndexAirlines", "Airline")</div>
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("Dispatcher"))
                         {
-                            <li>@Html.ActionLink("Crews", "IndexCrew", "Crew")</li>
-                            <li>@Html.ActionLink("Requests", "IndexRequest","User")</li>
+                            <div class="sidebar-part">@Html.ActionLink("Crews", "IndexCrew", "Crew")</div>
+                            <div class="sidebar-part">@Html.ActionLink("Requests", "IndexRequest", "User")</div>
                         }
                         if (User.IsInRole("Administrator"))
                         {
-                            <li>@Html.ActionLink("Crews", "IndexCrew", "Crew")</li>
-                            <li>@Html.ActionLink("Incoming requests", "IndexRequestAdmin", "User")</li>
+                            <div class="sidebar-part">@Html.ActionLink("Crews", "IndexCrew", "Crew")</div>
+                            <div class="sidebar-part">@Html.ActionLink("Incoming requests", "IndexRequestAdmin", "User")</div>
                         }
                         if (User.IsInRole("System administrator"))
                         {
-                            <li>@Html.ActionLink("Users", "IndexUser", "User")</li>
+                            <div class="sidebar-part">@Html.ActionLink("Users", "IndexUser", "User")</div>
                         }
                     }
-                </ul>
             </div>
             <div class="sidebar-part">
                 @Html.ActionLink("Search for flight", "Index", "Search")
@@ -76,23 +73,19 @@
             <div class="logout-action">
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    @Html.ActionLink("Sign out", "Logout","User")
+                    @Html.ActionLink("Sign out", "Logout", "User")
                 }
                 else
                 {
-                    @Html.ActionLink("Sign in","Login","User");
+                    @Html.ActionLink("Sign in", "Login", "User");
                 }
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="mainwindow">
             @RenderBody()
         </div>
     </div>
-</div>
-<div class="modal-footer">
-    <p class="text-center">GreyWolf&copy; 2017</p>
-</div>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>

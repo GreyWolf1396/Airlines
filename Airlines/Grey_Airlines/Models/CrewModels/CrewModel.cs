@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace Grey_Airlines.Models
+namespace Grey_Airlines.Models.CrewModels
 {
     public class CrewModel
     {
