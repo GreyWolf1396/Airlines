@@ -49,6 +49,11 @@
   <ItemGroup>
     <Compile Include="Db\AirlineDbContext.cs" />
     <Compile Include="Db\AirlineDbInitializer.cs" />
+    <Compile Include="Migrations\201806051820306_Initial.cs" />
+    <Compile Include="Migrations\201806051820306_Initial.Designer.cs">
+      <DependentUpon>201806051820306_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
@@ -58,7 +63,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201806051820306_Initial.resx">
+      <DependentUpon>201806051820306_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Grey_Airlines.Contracts.csproj">
       <Project>{57c8d20f-586f-4e53-b4cb-cf6d6601f6c1}</Project>
