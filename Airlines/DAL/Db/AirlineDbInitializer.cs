@@ -10,10 +10,10 @@ using Contracts.Enums;
 
 namespace DAL.Db
 {
-    class AirlineDbInitializer:DropCreateDatabaseIfModelChanges<AirlineDbContext>
+    class AirlineDbInitializer : DropCreateDatabaseIfModelChanges<AirlineDbContext>
     {
         protected override void Seed(AirlineDbContext db)
-        { 
+        {
 
             db.Roles.Add(new Role()
             {
@@ -214,7 +214,7 @@ namespace DAL.Db
             });
             db.SaveChanges();
             db.Crews.Add(new Crew()
-            { 
+            {
                 Id = 1,
                 HomeAirport = db.Airports.Find(1),
                 Title = "PsCr_01"
