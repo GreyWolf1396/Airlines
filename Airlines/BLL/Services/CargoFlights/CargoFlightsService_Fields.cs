@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BLL.Services.ServiceBase;
-using Contracts.DomainEntities.Cargo_flights;
-using DAL;
+﻿using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.CargoFlights
 {
     /// <summary>
     /// Service for work with entities: CargoPlaneModel, CargoPlane, CargoFlight, CargoTicket

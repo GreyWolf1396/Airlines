@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Grey_Airlines.Models
+﻿namespace Grey_Airlines.Models.UserModels
 {
     public class RoleModel
     {

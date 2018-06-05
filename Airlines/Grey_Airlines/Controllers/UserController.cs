@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL;
-using BLL.Services;
+using BLL.Services.Users;
 using Contracts.DomainEntities.Users;
 using Contracts.Enums;
-using Grey_Airlines.Models;
+using Grey_Airlines.Models.UserModels;
 
 namespace Grey_Airlines.Controllers
 {
@@ -27,12 +27,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "System administrator")]
         public ActionResult IndexUser()
         {
-            Mapper.Initialize(
-                cfg => cfg.CreateMap<User, UserModel>()
-                    .ForMember("Role", opt => opt.MapFrom(u => u.Role.Title))
-                    .ForMember("ChiefAdmin", opt => opt.MapFrom(u => u.ChiefAdmin.Name))
-                    .ForMember("RoleId", opt => opt.MapFrom(u=>u.Role.Id))
-                    .ForMember("ChiefAdminId", opt => opt.Ignore()));
             var model = new List<UserModel>();
             foreach (var user in _service.Users.GetAll())
             {
@@ -122,10 +116,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "System administrator")]
         public ActionResult EditUser(int id)
         {
-            Mapper.Initialize(
-               cfg => cfg.CreateMap<User, UserModel>()
-                   .ForMember("Role", opt => opt.MapFrom(u => u.Role.Title))
-                   .ForMember("ChiefAdmin", opt => opt.MapFrom(u => u.ChiefAdmin.Name)));
             var administrators = _service.Users.GetAll()
                    .Where(u => u.Role.Id == AdminRoleId)
                    .Select(u => new UserModel()
@@ -180,11 +170,6 @@ namespace Grey_Airlines.Controllers
             {
                 return new HttpUnauthorizedResult();
             }
-            Mapper.Initialize(
-                cfg =>
-                    cfg.CreateMap<UserRequest, UserRequestModel>()
-                        .ForMember(r => r.Creator, opt => opt.MapFrom(r => r.Creator.Name))
-                        .ForMember(r => r.AssignedTo, opt => opt.MapFrom(r => r.AssignedTo.Name)));
             var model = new List<UserRequestModel>();
             var user = _service.GetUserByLogin(HttpContext.User.Identity.Name);
             foreach (var request in _service.Requests.GetAll().Where(r => r.Creator == user&& r.Status<RequestStatus.Closed))
@@ -197,11 +182,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult IndexRequestAdmin()
         {
-            Mapper.Initialize(
-                cfg =>
-                    cfg.CreateMap<UserRequest, UserRequestModel>()
-                        .ForMember(r => r.Creator, opt => opt.MapFrom(r => r.Creator.Name))
-                        .ForMember(r => r.AssignedTo, opt => opt.MapFrom(r => r.AssignedTo.Name)));
             var model = new List<UserRequestModel>();
             var user = _service.GetUserByLogin(HttpContext.User.Identity.Name);
             foreach (var request in _service.Requests.GetAll().Where(r => r.AssignedTo == user && r.Status==RequestStatus.Created))
@@ -214,11 +194,6 @@ namespace Grey_Airlines.Controllers
         [Authorize]
         public ActionResult DetailsRequest(int id)
         {
-            Mapper.Initialize(
-                cfg =>
-                    cfg.CreateMap<UserRequest, UserRequestModel>()
-                        .ForMember(r => r.Creator, opt => opt.MapFrom(r => r.Creator.Name))
-                        .ForMember(r => r.AssignedTo, opt => opt.MapFrom(r => r.AssignedTo.Name)));
             var model = Mapper.Map<UserRequest, UserRequestModel>(_service.Requests.GetById(id));
             return View(model);
         }
@@ -299,7 +274,6 @@ namespace Grey_Airlines.Controllers
         [Authorize(Roles = "System administrator")]
         public ActionResult EditRole(int id)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Role,RoleModel>());
             var model = Mapper.Map<Role,RoleModel>(_service.Roles.GetById(id));
             return View(model);
         }

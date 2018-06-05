@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using Grey_Airlines.Models.CrewModels;
 
 namespace Grey_Airlines.Models.ViewModels
 {

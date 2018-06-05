@@ -3,8 +3,9 @@ using Contracts.DomainEntities.Cargo_flights;
 using Contracts.DomainEntities.Crews;
 using Contracts.DomainEntities.Passenger_flights;
 using Contracts.DomainEntities.Users;
-using DAL.Database;
 using DAL.Repository;
+using System.Data.Entity;
+using DAL.Db;
 
 namespace DAL
 {

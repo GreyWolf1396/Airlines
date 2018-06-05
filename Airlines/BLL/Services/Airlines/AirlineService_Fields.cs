@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BLL.Services.ServiceBase;
-using Contracts.DomainEntities.Airlines;
-using DAL;
+﻿using DAL;
 
-namespace BLL.Services
+namespace BLL.Services.Airlines
 {
     /// <summary>
     /// Service for work with entitites: Airline, Airport, RouteNodes.

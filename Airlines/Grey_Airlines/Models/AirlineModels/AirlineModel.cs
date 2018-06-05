@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using Contracts.Enums;
 
-namespace Grey_Airlines.Models
+namespace Grey_Airlines.Models.AirlineModels
 {
     public class AirlineModel
     {

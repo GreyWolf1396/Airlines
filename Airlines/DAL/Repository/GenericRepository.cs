@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using DAL.Database;
+using System.Linq;
+using DAL.Db;
 
 namespace DAL.Repository
 {
@@ -17,7 +18,7 @@ namespace DAL.Repository
 
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return _dbSet;
+            return _dbSet.ToList();
         }
 
         public virtual TEntity GetById(object id)

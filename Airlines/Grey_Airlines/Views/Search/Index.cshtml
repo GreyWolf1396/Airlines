@@ -4,8 +4,8 @@
 }
 <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 <div class="text-center"><h2>Search</h2></div>
-<div class="row">
-    <div class="col-md-6">
+<div class="index-search">
+    <div>
         <div class="text-center"><h4>Passenger flights</h4></div>
         <div class="search-form">
             @using (Html.BeginForm("SearchFlightById", "PassengerFlight"))
@@ -42,7 +42,7 @@
             }
         </div>
     </div>
-    <div class="col-md-6">
+    <div>
         <div class="text-center"><h4>Cargo flights</h4></div>
         <div class="search-form">
             @using (Html.BeginForm("SearchFlightById", "CargoFlight"))

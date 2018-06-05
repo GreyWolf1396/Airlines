@@ -6,14 +6,13 @@ using Contracts.DomainEntities.Crews;
 using Contracts.DomainEntities.Passenger_flights;
 using Contracts.DomainEntities.Users;
 
-namespace DAL.Database
+namespace DAL.Db
 {
-    public class AirlineDbContext:DbContext
+    public class AirlineDbContext : DbContext
     {
         public AirlineDbContext() : base("AirlineDb")
         {
-            System.Data.Entity.Database.SetInitializer( new AirlineDbInitializer());
-            Database.Initialize(true);
+            Database.SetInitializer( new AirlineDbInitializer());
         }
 
         public DbSet<Role> Roles { get; set; }
