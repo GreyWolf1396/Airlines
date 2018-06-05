@@ -27,16 +27,18 @@ textarea {
     width: 15%;
 }
 
-.sidemenu a {
-    color: white;
-}
+    .sidemenu a {
+        color: white;
+    }
+
 .mainmenu {
     list-style-type: none;
 }
-.mainmenu a {
-    color: black;
-    font-size: 1.2em;
-}
+
+    .mainmenu a {
+        color: black;
+        font-size: 1.2em;
+    }
 
 .page-header {
     text-align: center;
@@ -58,11 +60,9 @@ textarea {
 textarea {
     width: 100%;
     resize: none;
-
 }
 
 .search-form {
-
     margin: 5% auto;
     background-color: #c6ddf4;
     text-align: center;
@@ -70,9 +70,10 @@ textarea {
     border-radius: 2%;
     font-weight: bold;
 }
-.search-form input, .search-form select {
-    margin: 0 auto;
-}
+
+    .search-form input, .search-form select {
+        margin: 0 auto;
+    }
 
 .table tbody > tr > td {
     vertical-align: middle;
@@ -116,7 +117,34 @@ textarea {
     display: flex;
 }
 
-.index-search>div {
-    width: 45%;
-    margin: 1% 3%;
+    .index-search > div {
+        width: 90%;
+        margin: 1% 3%;
+    }
+
+.nav-tabs {
+    display: flex;
 }
+
+    .nav-tabs li {
+        display: block;
+        padding: 0 10px;
+        margin: 2% 2px;
+        color: black;
+        background-color: lightblue;
+        border: solid 1px black
+    }
+
+.nav-tabs li:hover {
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+}
+
+        .nav-tabs li a {
+            color: black;
+        }
+
+.nav-tabs li a:hover  {
+            color: white;
+        }
